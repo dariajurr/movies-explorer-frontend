@@ -1,0 +1,42 @@
+.NavAuth {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 1.4;
+    width: 100%;
+    list-style: none;
+    padding-left: 44px;
+}
+
+.NavAuth__item:not(:last-child):not(:first-child) {
+    margin-left: 50px;
+    font-weight: 400;
+}
+
+.NavAuth__item_gray {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #313131;
+    border-radius: 20px;
+    width: 100px;
+    height: 32px;
+    cursor: pointer;
+    margin-left: auto;
+    font-size: 14px;
+    line-height: 1.14;
+}
+
+.NavAuth__link {
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 768px) {
+    .NavAuth{
+        display: none;
+    }
+}

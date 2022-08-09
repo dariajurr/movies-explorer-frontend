@@ -1,0 +1,35 @@
+.humburger {
+    display: none;
+    padding: 11px 8px 10px;
+}
+
+.humburger__item {
+    display: block;
+    width: 28px;
+    height: 3px;
+    background-color: #fff; 
+}
+
+@media screen and (max-width: 769px) {    
+    .humburger {
+        display: block;
+    }
+}
+
+.humburger__item:not(:last-child) {
+    margin-bottom: 7px;
+}
+
+@media screen and (max-width: 320px) {
+    .humburger {
+        padding: 11px 9px;
+    }
+
+    .humburger__item:not(:last-child) {
+        margin-bottom: 6.5px;
+    }
+}
+
+
+
+

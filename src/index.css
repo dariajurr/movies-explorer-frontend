@@ -1,0 +1,26 @@
+@import url("./vendor/normalize.css");
+@import url("./vendor/fonts/fonts.css");
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.h2-heading {
+  margin: 0;
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 1.22;
+  letter-spacing: -0.04em;
+  padding-bottom: 23px;
+  border-bottom: solid #dadada 1px ;
+}
+
+@media screen and (max-width: 320px) { 
+  .h2-heading {
+    font-size: 18px;
+    line-height: 22px;
+    padding-bottom: 28px;
+  } 
+}
