@@ -6,10 +6,10 @@ function NavUnAuth() {
   return ( 
     <ul className='NavUnAuth'>
       <li className="NavUnAuth__item">
-        <Link to="/signup " className="NavUnAuth__link">Регистрация</Link>
+        <Link to="/signup" className="NavUnAuth__link">Регистрация</Link>
       </li>
-      <li className="NavUnAuth__item NavUnAuth__item_green">
-        <Link to="/signin " className="NavUnAuth__link">Войти</Link>
+      <li className="NavUnAuth__item">
+        <Link to="/signin" className="NavUnAuth__link NavUnAuth__link_green">Войти</Link>
       </li>
     </ul> 
   );

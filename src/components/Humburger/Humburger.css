@@ -1,6 +1,8 @@
 .humburger {
     display: none;
     padding: 11px 8px 10px;
+    border: none;
+    background: transparent;
 }
 
 .humburger__item {

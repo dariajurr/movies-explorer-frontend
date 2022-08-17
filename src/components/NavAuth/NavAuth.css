@@ -1,4 +1,4 @@
-.NavAuth {
+.navAuth {
     display: flex;
     justify-content: start;
     align-items: center;
@@ -10,12 +10,24 @@
     padding-left: 44px;
 }
 
-.NavAuth__item:not(:last-child):not(:first-child) {
+.navAuth__item:not(:last-child):not(:first-child) {
     margin-left: 50px;
     font-weight: 400;
 }
 
-.NavAuth__item_gray {
+.navAuth__item_right {
+    margin-left: auto;
+    font-size: 14px;
+    line-height: 1.14;
+}
+
+.navAuth__link {
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+}
+
+.navAuth__link_gray {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -24,19 +36,47 @@
     width: 100px;
     height: 32px;
     cursor: pointer;
-    margin-left: auto;
-    font-size: 14px;
-    line-height: 1.14;
 }
 
-.NavAuth__link {
-    text-decoration: none;
-    color: inherit;
-    cursor: pointer;
+.navAuth__link_active {
+    border-bottom: 1px solid #fff;
+}
+
+.navAuth__link:hover {
+    opacity: 0.7;
 }
 
 @media screen and (max-width: 768px) {
-    .NavAuth{
-        display: none;
+    .navAuth{
+        flex-direction: column;
+        height: 100%;
+        padding-left: 0;
     }
+
+    .navAuth__item {
+        margin: 0;
+    }
+
+    .navAuth__item:not(:last-child):not(:first-child) {
+        margin-left: 0;
+    }
+
+    .navAuth__item:not(:last-child){
+        margin-bottom: 28px;
+    }
+
+    .navAuth__item_right {
+        margin-top: auto;
+    }
+
+    .navAuth__link {
+        font-size: 18px;
+        line-height: 1.22;
+    }
+
+    .navAuth__link_gray {
+        font-size: 14px;
+        line-height: 1.14;
+    }
+
 }
