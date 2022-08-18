@@ -12,18 +12,9 @@ class Api {
       return Promise.reject(`Ошибка: ${res.status}`);
     }
   
-    _getHeaders() {
-      const token = localStorage.getItem('user');
-      const jwt = JSON.parse(token).token;
-      return {
-          'authorization': `Bearer ${jwt}`,
-          ...this._headers,
-      };
-    }
-  
     getMovies() {
       return fetch(`${this._baseUrl}/beatfilm-movies`, {
-        headers: this._getHeaders(),
+        headers: this._headers,
       })
       .then(this._checkResponse);
     }

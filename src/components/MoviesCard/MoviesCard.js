@@ -11,7 +11,7 @@ function MoviesCard({movie, saved=[]}) {
     }, [location.pathname]);
 
   return (
-    <article className={`movieCard ${saved.some(el => el._id === movie._id) && 'movieCard_saved'}`}>
+    <article className={`movieCard ${saved.some(el => el.id === movie.id) && 'movieCard_saved'}`}>
         {locPath === '/movies' && <button type="button" className="movieCard__btn movieCard__save-btn">Сохранить</button>}
         {locPath === '/saved_movies' && <button type="button" className="movieCard__btn movieCard__delete-btn">&#10006;</button>}
         <a className='movieCard__link' href={movie.trailerLink} target="_blank" rel="noreferrer">
