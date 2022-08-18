@@ -6,7 +6,7 @@ function MoviesCardList({movies, saved=[]}) {
     return (
         <section className='moviesCardList'>
             <div className='moviesCardList__items'>
-                {movies.map((movie) => (          
+                {movies.slice(0, 12).map((movie) => (          
                 <MoviesCard movie={movie} key={movie.id} saved={saved}/>
                 ))}
             </div>

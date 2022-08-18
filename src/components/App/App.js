@@ -17,15 +17,17 @@ import MoviesApi from '../../utils/MoviesApi.js';
 
 //временные файлы
 import saved from '../../utils/dsvedMovies.json';
+import movie from '../../utils/movies.json';
+import user from '../../utils/users.json';
 
 function App() {
   const history = useHistory();
-  const [loggedIn, setLoggedIn] = React.useState(false);
-  const [currentUser, getUserInfo] =  React.useState({});
-  const [movies, setMovies] = React.useState({});
+  const [loggedIn, setLoggedIn] = React.useState(true);
+  const [currentUser, getUserInfo] =  React.useState(user);
+  const [movies, setMovies] = React.useState(movie);
   const [navPopupOpen, setNavPopupOpen] = React.useState(false);
 
-  useEffect(() => {
+  /*useEffect(() => {
     const tokenCheck = () => {
       const JWT = localStorage.getItem('user');
       if (JWT) {    
@@ -51,7 +53,7 @@ function App() {
       })
     .catch((err) => console.log(err)); 
     }
-  }, [loggedIn]);
+  }, [loggedIn]);*/
 
   function handleNavPopupClick() {
     setNavPopupOpen(true);
@@ -62,12 +64,11 @@ function App() {
   }
 
   function handleUpdateUser(data) {
-    console.log(data);
-    api.setProfileInfo(data)
+    /*api.setProfileInfo(data)
       .then(res => {
         getUserInfo(res);
     })
-    .catch((err) => console.log(err));
+    .catch((err) => console.log(err));*/
   }
 
   function signUp (name, password, email) {
