@@ -79,16 +79,18 @@
     margin-bottom: 20px;
 }
 
-.profile__link {
+.profile__signOut-btn {
     display: block;
     font-weight: 500;
     font-size: 13px;
     line-height: 1.23;
     color: #EE3465;
-    text-decoration: none;
+    border: none;
+    background: transparent;
+    margin: auto;
 }
 
-.profile__link:hover {
+.profile__signOut-btn:hover {
     opacity: 0.8;
 }
 
@@ -128,7 +130,7 @@
         width: 80%;
     }
 
-    .profile__link {
+    .profile__signOut-btn {
         font-size: 13px;
         line-height: 1.23;
     }

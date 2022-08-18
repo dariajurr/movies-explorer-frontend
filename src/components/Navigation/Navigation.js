@@ -8,7 +8,7 @@ import Humburger from '../Humburger/Humburger';
 
 function Navigation() {
     const [windowWidth, setWindiwWidth] = useState(window.innerWidth);
-    const currentUser = React.useContext(CurrentUserContext);
+    const {loggedIn} = React.useContext(CurrentUserContext);
 
     useEffect(() => {
     window.addEventListener("resize", function () {
@@ -18,9 +18,9 @@ function Navigation() {
 
     return (
         <nav className='nav-menu'>
-            { !currentUser && <NavUnAuth/> }
-            { windowWidth > 768 && currentUser && <NavAuth/> }
-            { windowWidth <= 768 && currentUser && <Humburger/> }
+            { !loggedIn && <NavUnAuth/> }
+            { windowWidth > 768 && loggedIn && <NavAuth/> }
+            { windowWidth <= 768 && loggedIn && <Humburger/> }
         </nav>
     );
 }

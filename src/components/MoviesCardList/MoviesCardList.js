@@ -7,7 +7,7 @@ function MoviesCardList({movies, saved=[]}) {
         <section className='moviesCardList'>
             <div className='moviesCardList__items'>
                 {movies.map((movie) => (          
-                <MoviesCard movie={movie} key={movie._id} saved={saved}/>
+                <MoviesCard movie={movie} key={movie.id} saved={saved}/>
                 ))}
             </div>
             { movies.length >= 12 && <button className="moviesCardList__more-btn">Ещё</button>}

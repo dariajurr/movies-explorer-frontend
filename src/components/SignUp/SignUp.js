@@ -29,7 +29,7 @@ function SignUp({onSubmit}) {
             userName = {true}
             name='sigup' 
             title='Добро пожаловать!' 
-            textBtn='Войти'
+            textBtn='Зарегистрироваться'
             textSubTitle='Уже зарегистрированы?'
             textLink='Войти'
             hrefLink='signin'

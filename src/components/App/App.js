@@ -1,5 +1,5 @@
-import React from 'react';
-import { Route, Switch } from "react-router-dom";
+import React, {useEffect} from 'react';
+import { Route, Switch, useHistory } from 'react-router-dom';
 import {CurrentUserContext} from '../../contexts/CurrentUserContext.js';
 import {PopUpContext} from '../../contexts/PopUpContext';
 import './App.css'
@@ -11,16 +11,47 @@ import SignIn from '../SignIn/SignIn.js';
 import SignUp from '../SignUp/SignUp.js';
 import NotFound from '../NotFound/NotFound.js';
 import NavPopup from '../NavPopup/NavPopup.js';
+import auth from '../../utils/Auth.js';
+import api from '../../utils/MainApi.js';
+import MoviesApi from '../../utils/MoviesApi.js';
 
 //временные файлы
-import card from '../../utils/movies.json';
 import saved from '../../utils/dsvedMovies.json';
-import user from '../../utils/users.json';
 
 function App() {
-  const [currentUser, getUserInfo] =  React.useState(user);
-  const [movies, setCards] = React.useState(card);
+  const history = useHistory();
+  const [loggedIn, setLoggedIn] = React.useState(false);
+  const [currentUser, getUserInfo] =  React.useState({});
+  const [movies, setMovies] = React.useState({});
   const [navPopupOpen, setNavPopupOpen] = React.useState(false);
+
+  useEffect(() => {
+    const tokenCheck = () => {
+      const JWT = localStorage.getItem('user');
+      if (JWT) {    
+        auth.valid(JSON.parse(JWT).token)
+          .then((res) => {
+            if (res) {
+              setLoggedIn(true);
+              history.push('/');
+            }
+          })
+          .catch((err) => console.error(err));
+      }
+    };
+    tokenCheck();
+  }, [history, loggedIn]);
+
+  useEffect(() => {
+    if(loggedIn) {
+      Promise.all([api.getProfileInfo(), MoviesApi.getMovies()])
+      .then(([res, data]) => {
+        getUserInfo(res);
+        setMovies(data);
+      })
+    .catch((err) => console.log(err)); 
+    }
+  }, [loggedIn]);
 
   function handleNavPopupClick() {
     setNavPopupOpen(true);
@@ -30,20 +61,49 @@ function App() {
     setNavPopupOpen(false);
   }
 
-  function handleUpdateUser(data) {    
-    getUserInfo(data);
-  };
+  function handleUpdateUser(data) {
+    console.log(data);
+    api.setProfileInfo(data)
+      .then(res => {
+        getUserInfo(res);
+    })
+    .catch((err) => console.log(err));
+  }
 
   function signUp (name, password, email) {
-    console.log(name, password, email);
-  }
+    auth.signup(name, password, email)
+    .then((res) => {  
+      if (res) {        
+        history.push('/signin');
+      }
+    })
+    .catch((err) => {
+      console.log(err)
+    });
+  };
 
   function signIn (password, email) {
-    console.log(password, email);
+    auth.signin(password, email)
+    .then(res => {  
+      localStorage.setItem('user', JSON.stringify({
+        token: res.token
+      }));   
+      setLoggedIn(true);  
+      history.push('/');
+    })
+    .catch((err) => {
+      console.log(err)
+    });
   }
+
+  function signOut () {
+    console.log();
+    setLoggedIn(false);
+    history.push('/signin');
+  };
   
   return (
-    <CurrentUserContext.Provider value={currentUser}>    
+    <CurrentUserContext.Provider value={{loggedIn, currentUser}}>    
       <PopUpContext.Provider value={{handleNavPopupClick, closePopup}}>
         <div className="App">
           <Switch> 
@@ -57,7 +117,7 @@ function App() {
               <SavedMovies movies = {saved}/>
             </Route>
             <Route path="/profile">     
-              <Profile onSubmit={handleUpdateUser}/>
+              <Profile onSubmit={handleUpdateUser} signOut={signOut}/>
             </Route>  
             <Route path="/signin">     
               <SignIn onSubmit={signIn}/>

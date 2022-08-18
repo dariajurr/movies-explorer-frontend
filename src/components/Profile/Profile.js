@@ -1,11 +1,12 @@
 import React from 'react';
 import './Profile.css';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import Header from '../Header/Header';
 
 function Profile(props) {
-    const currentUser = React.useContext(CurrentUserContext);
+    const history = useHistory();
+    const { currentUser } = React.useContext(CurrentUserContext);
     const [name , setName] = React.useState(currentUser.name);
     const [email, setEmail ] = React.useState(currentUser.email);
     const [isEdit, setIsEdit] = React.useState(true);
@@ -37,6 +38,14 @@ function Profile(props) {
 
         setIsEdit(true);
     }
+
+    function signOut() {
+        localStorage.removeItem('user');
+        props.signOut();
+        history.push('/signin');
+    }
+
+
     return (
         <>
             <Header/>
@@ -78,7 +87,7 @@ function Profile(props) {
                     <button type='submit' className={`profile__btn profile__save-btn ${isEdit && 'profile__item_display_none'}`}>Сохранить</button>
                 </form>
                 <button type='button' className={`profile__btn profile__edit-btn ${!isEdit && 'profile__item_display_none'}`} onClick={handlEdit}>Редактировать</button>
-                <Link to="/" className={`profile__link ${!isEdit && 'profile__item_display_none'}`}>Выйти из аккаунта</Link>
+                <button className={`profile__signOut-btn ${!isEdit && 'profile__item_display_none'}`} onClick={signOut}>Выйти из аккаунта</button>
             </section>
         </> 
     );

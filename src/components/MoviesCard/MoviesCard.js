@@ -15,7 +15,7 @@ function MoviesCard({movie, saved=[]}) {
         {locPath === '/movies' && <button type="button" className="movieCard__btn movieCard__save-btn">Сохранить</button>}
         {locPath === '/saved_movies' && <button type="button" className="movieCard__btn movieCard__delete-btn">&#10006;</button>}
         <a className='movieCard__link' href={movie.trailerLink} target="_blank" rel="noreferrer">
-        <img src={movie.image} alt={movie.nameRU} className='movieCard__image'/>
+        <img src={`https://api.nomoreparties.co${movie.image.url}`} alt={movie.nameRU} className='movieCard__image'/>
         </a>
         <div className="movieCard__info">
             <h2 className="movieCard__title">{movie.nameRU}</h2>
