@@ -22,7 +22,7 @@ import user from '../../utils/users.json';
 
 function App() {
   const history = useHistory();
-  const [loggedIn, setLoggedIn] = React.useState(true);
+  const [loggedIn, setLoggedIn] = React.useState(false);
   const [currentUser, getUserInfo] =  React.useState(user);
   const [movies, setMovies] = React.useState(movie);
   const [navPopupOpen, setNavPopupOpen] = React.useState(false);

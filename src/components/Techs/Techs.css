@@ -86,10 +86,12 @@
 @media screen and (max-width: 370px) {
     .techs {
         padding: 70px 18px;
+        background: #202020;
     }
 
     .techs__title {
         margin-bottom: 60px;
+        border-bottom: solid #000 1px;
     }
 
     .techs__content-title {

@@ -20,7 +20,7 @@
     content: '';
     width: 22px;
     height: 22px;
-    background: url(../../images/search.png);
+    background: url(../../images/search.svg);
 }
 
 .searchForm__input {
@@ -35,9 +35,9 @@
     margin-right: 19px;
 }
 
-.searchForm__input:focus-visible {
+/*.searchForm__input:focus-visible {
     outline: none;
-}
+}*/
 
 .searchForm__btn {
     width: 34px;
@@ -48,6 +48,10 @@
     cursor: pointer;
     margin-right: 19px;
     border: none;
+}
+
+.searchForm__btn:hover {
+    opacity: 0.7;
 }
 
 @media screen and (max-width: 768px) {
