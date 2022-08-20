@@ -1,0 +1,126 @@
+.authForm {
+    padding-top: 70px;
+}
+
+.authForm__title {
+    margin: 40px 0;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 1.2;
+}
+
+.authForm__container {
+    display: flex;
+    flex-direction: column;
+    max-width: 396px;
+    margin: auto;
+}
+
+.authForm__form {
+    display: flex;
+    flex-direction: column;
+}
+
+.authForm__inputs {
+    display: flex;
+    flex-direction: column;
+    min-height: 266px;
+}
+
+.authForm__label {
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 1.2;
+    color: #8B8B8B;
+    margin-bottom: 10px;
+}
+
+.authForm__label:not(:first-child) {
+    margin-top: 20px;
+}
+
+.authForm__input {
+    background: #2F2F2F;
+    border: none;
+    border-radius: 8px;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 1.23;
+    color: #fff;
+    padding: 15px;
+}
+
+.authForm__input-error {
+    color: #EE3465;
+}
+
+.authForm__error-massage {
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 1.2;
+    color: #EE3465;
+    margin-top: 10px;
+}
+
+.authForm__btn {
+    background: #4285F4;
+    border: none;
+    border-radius: 3px;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 1.21;
+    text-align: center;
+    color: #fff;
+    padding: 14px 0;
+    cursor: pointer;
+    margin: 69px 0 16px;
+}
+
+.authForm__btn:hover {
+    opacity: 0.7;
+}
+
+.authForm__subtitle {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.21;
+    text-align: center;
+    color: #8B8B8B;
+    margin-bottom: 30px;
+}
+
+.authForm__link {
+    text-decoration: none;
+    color: #4285F4;
+    margin-left: 6px;    
+}
+
+@media screen and (max-width: 768px) {
+    .authForm {
+        padding-top: 232px;
+    } 
+}
+
+@media screen and (max-width: 430px) {
+    .authForm {
+        padding-top: 56px;
+    } 
+
+    .authForm__container {
+        align-items: center;
+    }
+
+    .authForm__form {
+        min-width: 260px;
+    }
+
+    .authForm__btn:hover {
+        font-size: 12px;
+        line-height: 1.25;
+    }
+    
+    .authForm__subtitle {
+        font-size: 12px;
+        line-height: 1.25;
+    }
+}

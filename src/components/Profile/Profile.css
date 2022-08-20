@@ -1,0 +1,137 @@
+.profile {
+    padding-top: 148px;
+    text-align: center;
+}
+
+.profile__title {
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 1.2;
+    text-align: center;
+    margin-bottom: 123px;
+}
+
+.profile__input-span-group {
+    display: flex;
+    justify-content: space-between;
+    max-width: 410px;
+    margin: auto;
+}
+
+.profile__input-span-group:first-child {
+    padding-bottom: 16px;
+    margin-bottom: 17px;
+    border-bottom: 1px solid #424242;
+}
+
+.profile__label {
+    font-weight: 500;
+    font-size: 11px;
+    line-height: 1.18;
+}
+
+.profile__input {
+    text-align: end;
+    border: none;
+    background-color: transparent;
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 1.18;
+    color: #fff;
+    outline: none;
+    width: 80%;
+}
+
+.profile__btn {
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 1.23;
+    color: #fff;
+    border: none;
+    background-color: transparent;
+    margin-bottom: 16px;
+    cursor: pointer;
+}
+
+.profile__save-btn {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 1.21;
+    color: #fff;
+    background: #3456F3;
+    border-radius: 3px;
+    padding: 14px 0;
+    min-width: 410px;
+}
+
+.profile__btn:hover {
+    opacity: 0.8;
+}
+
+.profile__input-error {
+    display: block;
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 13px;
+    text-align: center;
+    color: #FF004C;
+    margin-top: 189px;
+    margin-bottom: 20px;
+}
+
+.profile__signOut-btn {
+    display: block;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 1.23;
+    color: #EE3465;
+    border: none;
+    background: transparent;
+    margin: auto;
+}
+
+.profile__signOut-btn:hover {
+    opacity: 0.8;
+}
+
+.profile__item_display_none {
+    display: none;
+}
+
+@media screen and (max-width: 768px) {
+    .profile {
+        padding-top: 310px;
+    }
+
+    .profile__title {
+        margin-bottom: 96px;
+    }
+}
+
+@media screen and (max-width: 470px) {
+    .profile {
+        padding-top: 144px;
+    }
+
+    .profile__title {
+        margin-bottom: 80px;
+    }
+
+    .profile__input-span-group {
+        max-width: 260px;
+    }
+
+    .profile__btn {
+        font-size: 13px;
+        line-height: 1.23;
+    }
+
+    .profile__save-btn {
+        width: 80%;
+    }
+
+    .profile__signOut-btn {
+        font-size: 13px;
+        line-height: 1.23;
+    }
+}

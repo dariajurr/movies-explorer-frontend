@@ -1,0 +1,156 @@
+.about {
+    padding: 110px 70px;
+}
+
+
+.about__title {
+    margin-bottom: 70px;
+}
+
+.about__features {
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+    margin-bottom: 110px;
+} 
+
+.about__feature {
+    max-width: 550px;
+} 
+
+.about__feature-title {
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 1.2;
+    letter-spacing: -0.04em;
+    margin-bottom: 26px;
+}
+
+.about__feature-description {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+}
+
+.about__timing {
+    display: flex;
+    text-align: center;
+}
+
+.about__timing-item {
+    
+}
+
+.about__timing-item_weeks_one {
+    flex: 1;
+}
+
+.about__timing-item_weeks_four {
+    flex: 4;
+}
+
+.about__timing-title {
+    padding: 9px 14px;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.21;
+    color: #000;
+}
+
+.about__timing-item_weeks_one .about__timing-title {
+    background: #3DDC84;
+}
+
+.about__timing-item_weeks_four .about__timing-title {
+    color: #fff;
+    background: #303030;
+}
+
+.about__timing-subtitle {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 1.21;   
+    color: #8B8B8B;
+    padding-top: 14px;
+}
+
+@media screen and (max-width: 768px) { 
+    .about {
+        padding: 90px 50px;
+    }
+
+    .about__features {
+        gap: 30px;  
+        margin-bottom: 93px; 
+    }
+
+    .about__feature-title {
+        margin-bottom: 22px;
+    }
+
+    .about__timing-item_weeks_one {
+        min-width: 140px;
+        flex: none;
+    }
+    
+    .about__timing-item_weeks_four {
+        width: calc(100% - 140px);
+        flex: none;
+    }
+    
+}
+
+@media screen and (max-width: 531px) { 
+    .about__features {
+        flex-direction: column;
+        gap: 56px;  
+        margin-bottom: 60px; 
+        align-items: center;
+    }
+
+    .about__feature {
+        max-width: 284px;
+    }
+
+    .about__feature-title {
+        font-size: 18px;
+        line-height: 1.202;  
+        margin-bottom: 16px;   
+    }
+
+    .about__feature-description {
+        font-size: 11px;
+        line-height: 1.45;
+    }
+
+    .about__timing-item_weeks_one {
+        min-width: 100px;
+        flex: none;
+    }
+    
+    .about__timing-item_weeks_four {
+        width: calc(100% - 100px);
+        flex: none;
+    }
+
+    .about__timing-title {
+        font-size: 11px;
+        line-height: 1.18;  
+    }
+
+    .about__timing-subtitle {
+        font-size: 11px;
+        line-height: 1.18;  
+    }
+}
+
+@media screen and (max-width: 320px) { 
+    .about {
+        padding: 70px 18px;
+    }
+
+    .about__title {
+        margin-bottom: 60px;
+    } 
+}
