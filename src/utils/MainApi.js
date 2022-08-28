@@ -44,42 +44,65 @@ class Api {
           email: data.email
         })
       })
-      .then(this._checkResponse); 
-    }
+      .then(res => res.json())
+      .catch((err) => console.log(err));
+    }; 
   
-    /*setCard(data) {
-      return fetch(`${this._baseUrl}/cards`, {
+    setMovies({id, country, director, duration, year, description, image, trailerLink, nameEN, nameRU}) {
+      return fetch(`${this._baseUrl}/movies`, {
         method: 'POST',
         headers: this._getHeaders(),
         body: JSON.stringify({
-          name: data.name,
-          link: data.link
-        })      
+          country : country || "не указано", 
+          director, 
+          duration, 
+          year, 
+          description, 
+          image : 'https://api.nomoreparties.co'+image.url, 
+          trailerLink, 
+          nameRU, 
+          nameEN: nameEN || "не указано",
+          thumbnail : 'https://api.nomoreparties.co'+image.formats.thumbnail.url,
+          movieId : id
+      })      
       })
       .then(this._checkResponse);    
-    }*/
+    }
   
-    /*deleteCard(data){
-      return fetch(`${this._baseUrl}/cards/${data}`, {
+    deleteMovie(data){
+      return fetch(`${this._baseUrl}/movies/${data}`, {
         method: 'DELETE',
         headers: this._getHeaders(),
       })
       .then(this._checkResponse);      
-    }*/
+    }
   
-    changeLikeCardStatus(cardID, isLiked) {
-      if (isLiked) {
-        return fetch(`${this._baseUrl}/cards/${cardID}/likes`, {
-          method: 'PUT',
+    changeLikeStatus(card, isLiked) {
+      if (!isLiked) {
+        return fetch(`${this._baseUrl}/movies`, {
+          method: 'POST',
           headers: this._getHeaders(),
-        })
-        .then(this._checkResponse);
+          body: JSON.stringify({
+            country : card.country || "не указано", 
+            director: card.director, 
+            duration: card.duration, 
+            year : card.year, 
+            description: card.description, 
+            image : 'https://api.nomoreparties.co'+ card.image.url, 
+            trailerLink: card.trailerLink, 
+            nameRU: card.nameRU, 
+            nameEN: card.nameEN || "не указано",
+            thumbnail : 'https://api.nomoreparties.co'+ card.image.formats.thumbnail.url,
+            movieId : card.id
+        })      
+      })
+        .then(this._checkResponse)    
       } else {
-        return fetch(`${this._baseUrl}/cards/${cardID}/likes`, {
+        return fetch(`${this._baseUrl}/movies/${card._id || card.movieId}`, {
           method: 'DELETE',
           headers: this._getHeaders(),
         })
-        .then(this._checkResponse);
+        .then(this._checkResponse)
       }
     }
   

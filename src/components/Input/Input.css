@@ -1,0 +1,34 @@
+.authForm__label {
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 1.2;
+    color: #8B8B8B;
+    margin-bottom: 10px;
+}
+
+.authForm__label:not(:first-child) {
+    margin-top: 5px;
+}
+
+.authForm__input {
+    background: #2F2F2F;
+    border: none;
+    border-radius: 8px;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 1.23;
+    color: #fff;
+    padding: 15px;
+}
+
+.authForm__input-error {
+    color: #EE3465;
+}
+
+.authForm__error-massage {
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 1.2;
+    color: #EE3465;
+    margin-top: 10px;
+}

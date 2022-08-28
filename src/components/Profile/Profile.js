@@ -3,6 +3,8 @@ import './Profile.css';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import { useHistory } from 'react-router-dom';
 import Header from '../Header/Header';
+import { EmailRegexp, NameRegexp } from '../../utils/constants';
+import api from '../../utils/MainApi';
 
 function Profile(props) {
     const history = useHistory();
@@ -10,41 +12,82 @@ function Profile(props) {
     const [name , setName] = React.useState(currentUser.name);
     const [email, setEmail ] = React.useState(currentUser.email);
     const [isEdit, setIsEdit] = React.useState(true);
+    const [isValid, setIsValid] = React.useState(false);
+    const [errorMsg, setErrorMsg] = React.useState("");
+    const [succesMsg, setSuccesMsg] = React.useState("");
+    const [nameIsValid, setNameIsValid] = React.useState(true);
+    const [emailIsValid, setEmailIsValid] = React.useState(true);
 
     React.useEffect(() => {
         setName(currentUser.name);
         setEmail(currentUser.email);
     }, [currentUser, isEdit]); 
 
+    React.useEffect(() => {
+        if (nameIsValid && emailIsValid) {
+            setIsValid(true);
+        } else {
+            setIsValid(false);
+        }
+    }, [nameIsValid, emailIsValid]); 
+
     function handleChangeName(e) {
         setName(e.target.value);
+
+        if (NameRegexp.test(e.target.value)) {
+            setNameIsValid(true);
+            setErrorMsg('');
+        } else {
+            setNameIsValid(false);
+            setErrorMsg('Имя должно быть длиннее 2 и короче 30 букв');
+        }
     }
 
     function handleChangeEmail(e) {
         setEmail(e.target.value);
+
+        if (EmailRegexp.test(e.target.value)) {
+            setEmailIsValid(true);
+            setIsValid(true);
+            setErrorMsg('');
+        } else {
+            setEmailIsValid(false);
+            setErrorMsg('Неверный формат Email');
+        }
     }
 
     function handlEdit() {
+        setSuccesMsg('');
         setIsEdit(false);
     }
 
     function handleSubmit(e) {
         e.preventDefault();
-      
-        props.onSubmit({
-          name,
-          email
-        });
-
-        setIsEdit(true);
+        api.setProfileInfo({
+            name,
+            email
+        })
+        .then(res => {
+            if (res.message) {  
+                setIsValid(false); 
+                setEmailIsValid(false);
+                setErrorMsg(res.message);     
+            } else {
+                props.onSubmit({
+                    name,
+                    email
+                });
+                setIsEdit(true);
+                setSuccesMsg('Данные успешно изменены');
+            }            
+        })
+        .catch((err) => console.log(err));
     }
 
     function signOut() {
-        localStorage.removeItem('user');
-        props.signOut();
-        history.push('/signin');
+        props.onSignOut();
+        history.push('/');
     }
-
 
     return (
         <>
@@ -56,7 +99,7 @@ function Profile(props) {
                         <label htmlFor='input-name' className='profile__label'>Имя</label>
                         <input
                             value={name || ''} 
-                            onChange={handleChangeName}
+                            onInput={handleChangeName}
                             id='input-name'
                             type='text'
                             name='name'
@@ -71,7 +114,7 @@ function Profile(props) {
                         <label htmlFor='input-email' className='profile__label'>Email</label>
                         <input
                             value={email || ''} 
-                            onChange={handleChangeEmail}
+                            onInput={handleChangeEmail}
                             id='input-email'
                             type='text'
                             pattern='[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$'
@@ -83,8 +126,12 @@ function Profile(props) {
                             disabled={isEdit}
                         />
                     </div>
-                    <span className="profile__input-error">&nbsp;</span>
-                    <button type='submit' className={`profile__btn profile__save-btn ${isEdit && 'profile__item_display_none'}`}>Сохранить</button>
+                    <span className={`profile__span-text ${errorMsg && 'profile__span-text_error'} ${succesMsg && 'profile__span-text_succes'}`}>
+                        {!isValid && errorMsg}
+                        {isValid && succesMsg}
+                        &nbsp;
+                    </span>
+                    <button type='submit' className={`profile__btn profile__save-btn ${isEdit && 'profile__item_display_none'}`} disabled={!isValid}>Сохранить</button>
                 </form>
                 <button type='button' className={`profile__btn profile__edit-btn ${!isEdit && 'profile__item_display_none'}`} onClick={handlEdit}>Редактировать</button>
                 <button className={`profile__signOut-btn ${!isEdit && 'profile__item_display_none'}`} onClick={signOut}>Выйти из аккаунта</button>
