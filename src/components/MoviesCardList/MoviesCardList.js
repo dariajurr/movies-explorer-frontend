@@ -2,12 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import './MoviesCardList.css';
 import MoviesCard from '../MoviesCard/MoviesCard';
-import { useCurrentWidth } from '../../hooks/useCaurrentWidth';
+import { PopUpContext } from '../../contexts/PopUpContext';
 import { getLoadStep, getInitalCount } from '../../utils/utils';
 
 function MoviesCardList({ movies, error, changeLikeStatus }) {
+    const { width } = React.useContext(PopUpContext);
     const location = useLocation();
-    const width = useCurrentWidth();
+    const step = getLoadStep(width);
     const [visibleMoviesCount, setVisibleMoviesCount] = useState(getInitalCount(width));
     const [locPath, setLocPath] = useState(location.pathname);
     
@@ -21,10 +22,8 @@ function MoviesCardList({ movies, error, changeLikeStatus }) {
 
     }, [locPath]);
 
-    
-
     function hadleLoadMore () {
-        setVisibleMoviesCount((prevCount)=> prevCount + getLoadStep(width));
+        setVisibleMoviesCount((prevCount)=> prevCount + step);
     }
 
     return (

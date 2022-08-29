@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './Movies.css';
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
@@ -13,60 +13,35 @@ import MoviesApi from '../../utils/MoviesApi';
 function Movies() {
   const [isLoader, setIsLoader] = useState(false);  
   const [error, setError] = useState(false);
-  const [movies, setMovies] = useState(getMovies());
+  const [movies, setMovies] = useState(getLocal('filtredMovies'));
   const [searchParams, setSearchParams] = useState(getLocal('searchParams'));
-
-  useEffect(() => {
-    const allMovies = getLocal('allMovies');
-
-    if (allMovies.length === 0) {
-      setIsLoader(true);
-      MoviesApi.getMovies()
-        .then(result => {
-          setLocal("allMovies", result);
-
-        api.getMovies()
-          .then(result => {
-            setLocal('savedMovies', result);
-            const moviesLs = getLocal("allMovies");
-            const handelesMovies = checkSavedMovies(moviesLs, result);
-
-            setLocal("allMovies", handelesMovies);
-
-            setMovies(handelesMovies);
-            setIsLoader(false);
-          })
-          .catch((err) => {
-          console.log(err);
-          setError(true);
-          });
-        })
-        .catch((err) => {
-          console.log(err);
-          setError(true);
-        });
-    }
-  }, []);
-
-  function getMovies() {
-    const allMovies = getLocal('allMovies');
-    const filtredMovies = getLocal("filtredMovies");
-
-    if (filtredMovies.length === 0) {
-      localStorage.removeItem('searchParams');
-      return allMovies;
-    } else {
-      return filtredMovies;
-    }
-  }
 
   function getSearchMovies(keyWords, isShort) {
     setIsLoader(true);
     setSearchParams({keyWords, isShort});
 
-    const moviesLs = getLocal("allMovies");
-    
-    filterMovie(moviesLs, keyWords, isShort)
+    const allMoviesLs = getLocal("allMovies");
+
+    if (allMoviesLs.length === 0) {
+      MoviesApi.getMovies()
+        .then(res => {
+          setLocal("allMovies", res);
+          const savedMoviesLs = getLocal('savedMovies');
+          const allMoviesLs = checkSavedMovies(res, savedMoviesLs)
+          setLocal("allMovies", allMoviesLs);
+          getFiltredMovie (allMoviesLs, keyWords, isShort)
+        })
+        .catch((err) => {
+          console.log(err);
+          setError(true);
+        });
+    } else {
+      getFiltredMovie (allMoviesLs, keyWords, isShort)
+    }    
+  }
+
+  function getFiltredMovie (allMovies, keyWords, isShort) {
+    filterMovie(allMovies, keyWords, isShort)
     .then(res => {
       if (!res) {
         setError(true);
@@ -100,7 +75,7 @@ function Movies() {
           setLocal("filtredMovies", moviesSearchLs);
           setLocal("savedMovies", savedMoviesLs);
           
-          setMovies(getMovies());
+          setMovies(moviesSearchLs);
         }
         if (res.message === 'Карточка удалена') {
           res.isSaved = false;
@@ -117,7 +92,7 @@ function Movies() {
           setLocal("filtredMovies", moviesSearchLs);
           setLocal("savedMovies", savedMoviesLs);  
 
-          setMovies(getMovies());
+          setMovies(moviesSearchLs);
         }     
     })
   }

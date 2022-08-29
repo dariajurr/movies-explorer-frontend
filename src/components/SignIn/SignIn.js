@@ -22,7 +22,8 @@ function SignIn({setLoggedIn}) {
         }
     }, [emailIsValid, passwordIsValid]);
 
-    function handleSubmit(e){   
+    function handleSubmit(e){  
+        setIsValid(false); 
         e.preventDefault();
         
         const form = document.forms.signin;

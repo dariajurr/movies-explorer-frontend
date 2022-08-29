@@ -1,9 +1,6 @@
 async function filterMovie(data, keyWords, isShort) {
-    if (!keyWords && !isShort) {
-        return data;
-    }
 
-    return  data.filter(movie => {
+  return  data.filter(movie => {
       const str = `${movie.nameRU} ${movie.nameEN}`.toLowerCase();
 
       if (isShort && movie.duration > 40) {
@@ -60,6 +57,13 @@ function getInitalCount (width) {
   return 5;
 }
 
+function getDuration (duration) {
+  const hours = Math.trunc(duration/60);
+  const minutes = duration%60; 
+  
+  return `${hours} ч ${minutes} м`
+}
+
 function setLocal(name, items) {
   localStorage.setItem(name, JSON.stringify(items));
 }
@@ -78,6 +82,7 @@ export {
   updateIsSaved, 
   getLoadStep,
   getInitalCount,
+  getDuration,
   setLocal, 
   getLocal
 };

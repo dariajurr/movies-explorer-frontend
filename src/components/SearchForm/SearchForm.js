@@ -1,45 +1,54 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useState } from 'react';
 import './SearchForm.css';
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
+import { PopUpContext } from '../../contexts/PopUpContext';
 
 function SearchForm({getMovies, searchParams={}}) {
-  const location = useLocation();
-  const [locPath, setLocPath] = useState(location.pathname);
-  const [windowWidth, setWindiwWidth] = useState(window.innerWidth);
-  const [keyWords, setSeyWords] = React.useState(searchParams.keyWords || '');
-  const [isShort, setIsShort] = React.useState(searchParams.isShort || false);
-
-  useEffect(() => {
-    setLocPath(location.pathname);
-    window.addEventListener("resize", function () {
-        setWindiwWidth(window.innerWidth);
-      });
-    }, [windowWidth]);
+  const { width } = React.useContext(PopUpContext);
+  const [isValid, setIsValid] = useState(true);
+  const [keyWords, seKeyWords] = useState(searchParams.keyWords || '');
+  const [isShort, setIsShort] = useState(searchParams.isShort || false);
 
     function handleChangeInput(e) {
-      setSeyWords(e.target.value);
+      setIsValid(true);
+      seKeyWords(e.target.value);
     };
 
     function handleChangeCheckbox(e) {
       setIsShort(e.target.checked);
+      getMovies(keyWords, e.target.checked);
     };
 
     function onSearchClick(e) {
       e.preventDefault();
-      getMovies(keyWords, isShort, locPath);
+
+      if (keyWords.trim()) {
+        getMovies(keyWords, isShort);
+      } else {
+        setIsValid(false);
+      }
+      
     }
 
   return (
     <section className='searchForm'>
-        <form className='searchForm__form' name="search-form" onSubmit={onSearchClick}>
+        <form className='searchForm__form' name="search-form" onSubmit={onSearchClick} noValidate>
           <div className='searchForm__search-items'>
-            <input className="searchForm__input"name='keyWord' type="text" placeholder="Фильм" onChange={handleChangeInput} value={keyWords}></input>
+            <input 
+            className='searchForm__input'
+            name='keyWord' 
+            type="text" 
+            placeholder='Фильм'
+            onChange={handleChangeInput} 
+            value={keyWords} 
+            required></input>
             <button className="searchForm__btn" type="submit">&#10095;</button>
-            {windowWidth > 705 && <FilterCheckbox handleChangeCheckbox={handleChangeCheckbox} checked={isShort}/>}
-          </div>         
-          { windowWidth < 705 && <FilterCheckbox handleChangeCheckbox={handleChangeCheckbox} checked={isShort}/>}
+            
+            {width > 705 && <FilterCheckbox handleChangeCheckbox={handleChangeCheckbox} checked={isShort}/>}
+          </div>       
+          <p className='searchForm__input_error'>{!isValid && 'Нужно ввести ключевое слово'}&nbsp;</p>  
+          {width < 705 && <FilterCheckbox handleChangeCheckbox={handleChangeCheckbox} checked={isShort}/>}
+          
         </form>
     </section>
   );

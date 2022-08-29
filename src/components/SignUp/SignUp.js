@@ -34,12 +34,13 @@ function SignUp({setLoggedIn}) {
         const password = elements.password; 
 
         if (name.validity.valid && email.validity.valid && password.validity.valid) {
+            setIsValid(false);
             auth.signup(name.value, password.value, email.value)
             .then((res) => { 
                 if (res.message) {   
                     setErrorMsg(res.message);     
                 } else {
-                    auth.signin(email.value, password.value)
+                    auth.signin(password.value, email.value )
                     .then(res => {
                         if (res.token) {
                             localStorage.setItem('user', JSON.stringify({
@@ -51,9 +52,6 @@ function SignUp({setLoggedIn}) {
                         if (res.message) {   
                             setErrorMsg(res.message); 
                         }
-                    })
-                    .catch((err) => {
-                        console.log(err)
                     });
                 }
             })

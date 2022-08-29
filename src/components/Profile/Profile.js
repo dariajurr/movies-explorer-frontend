@@ -24,12 +24,12 @@ function Profile(props) {
     }, [currentUser, isEdit]); 
 
     React.useEffect(() => {
-        if (nameIsValid && emailIsValid) {
+        if (nameIsValid && emailIsValid && (name !== currentUser.name || email !== currentUser.email)) {
             setIsValid(true);
         } else {
             setIsValid(false);
         }
-    }, [nameIsValid, emailIsValid]); 
+    }, [name, email]); 
 
     function handleChangeName(e) {
         setName(e.target.value);
@@ -63,6 +63,7 @@ function Profile(props) {
 
     function handleSubmit(e) {
         e.preventDefault();
+        setIsValid(false);
         api.setProfileInfo({
             name,
             email

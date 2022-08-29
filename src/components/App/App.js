@@ -14,10 +14,13 @@ import NavPopup from '../NavPopup/NavPopup.js';
 import auth from '../../utils/Auth.js';
 import api from '../../utils/MainApi.js';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute.js';
+import { setLocal } from '../../utils/utils.js';
+import { useCurrentWidth } from '../../hooks/useCaurrentWidth';
 
 function App() {
   const history = useHistory();
   const location = useLocation();
+  const width = useCurrentWidth();
   const [loggedIn, setLoggedIn] = useState(false);
   const [currentUser, getUserInfo] =  useState([]);
   const [navPopupOpen, setNavPopupOpen] = useState(false);
@@ -34,7 +37,7 @@ function App() {
           if (!res) {
             setLoggedIn(false);
             localStorage.removeItem('user');
-            history.push('/');
+            history.push('/signin');
           } else {
             setLoggedIn(true);
             history.push(location.pathname);
@@ -46,9 +49,10 @@ function App() {
   
   useEffect(() => {
     if(loggedIn) {
-     api.getProfileInfo()
-      .then((info) => {
+      Promise.all([api.getProfileInfo(), api.getMovies()])
+      .then(([info, savedMovies]) => {
         getUserInfo(info);
+        setLocal('savedMovies', savedMovies);
       })
     .catch((err) => console.log(err)); 
     }
@@ -73,7 +77,7 @@ function App() {
   
   return (
     <CurrentUserContext.Provider value={{loggedIn, currentUser}}>    
-      <PopUpContext.Provider value={{handleNavPopupClick, closePopup}}>
+      <PopUpContext.Provider value={{handleNavPopupClick, closePopup, width}}>
         <div className="App">
           <Switch> 
             <Route exact path="/">     

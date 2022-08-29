@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import './MoviesCard.css';
+import { getDuration } from '../../utils/utils';
 
 function MoviesCard({movie, changeLikeStatus}) {
     const location = useLocation();
     const [locPath, setLocPath] = useState(location.pathname);
     const [baseUrl, setBaseUrl] = useState('');
+    const duration = getDuration(movie.duration);
 
     useEffect(() => {
         setLocPath(location.pathname);
@@ -16,13 +18,6 @@ function MoviesCard({movie, changeLikeStatus}) {
           setBaseUrl('');
         }
     }, [locPath]);
-
-    function getDuration (duration) {
-      const hours = Math.trunc(duration/60);
-      const minutes = duration%60; 
-      
-      return `${hours} ч ${minutes} м`
-    }
 
     function hadleLikeClick(e) {
       e.preventDefault();
@@ -39,7 +34,7 @@ function MoviesCard({movie, changeLikeStatus}) {
         </a>
         <div className="movieCard__info">
             <h2 className="movieCard__title">{movie.nameRU}</h2>
-            <p className="movieCard__duration">{getDuration(movie.duration)}</p>
+            <p className="movieCard__duration">{duration}</p>
         </div>
     </article>
   );
