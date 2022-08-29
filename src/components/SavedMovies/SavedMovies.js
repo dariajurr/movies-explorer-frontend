@@ -5,7 +5,7 @@ import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 import Preloader from '../Preloader/Preloader';
-import { filterMovie, updateIsSaved, setLocal, getLocal } from '../../utils/utils';
+import { filterMovie, updateIsSaved, handleMessage, setLocal, getLocal } from '../../utils/utils';
 import api from '../../utils/MainApi';
 
 function SavedMovies() {
@@ -70,6 +70,7 @@ function SavedMovies() {
       <main className='savedMovies'>
           <SearchForm getMovies = {getSearchSavedMovies}/>
           <MoviesCardList movies = {savedMovies} changeLikeStatus={handleMovieLike} error={error}/>
+          {!isLoader && <p className="moviesCardList__message">{handleMessage(error, savedMovies)}</p> }
           {isLoader && <Preloader/>}
       </main>
       <Footer/>

@@ -64,6 +64,16 @@ function getDuration (duration) {
   return `${hours} ч ${minutes} м`
 }
 
+function handleMessage(error, arr) {
+  if (error) {
+    return `Во время запроса произошла ошибка.
+      Возможно, проблема с соединением или сервер недоступен.
+      Подождите немного и попробуйте ещё раз`;
+  } else if (!error && arr.length === 0) {
+    return "Ничего не найдено";
+  }
+}
+
 function setLocal(name, items) {
   localStorage.setItem(name, JSON.stringify(items));
 }
@@ -83,6 +93,7 @@ export {
   getLoadStep,
   getInitalCount,
   getDuration,
+  handleMessage,
   setLocal, 
   getLocal
 };

@@ -5,7 +5,7 @@ import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Preloader from '../Preloader/Preloader';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
-import { filterMovie, setLocal, getLocal } from '../../utils/utils';
+import { filterMovie, handleMessage, setLocal, getLocal } from '../../utils/utils';
 import { checkSavedMovies, updateIsSaved } from '../../utils/utils';
 import api from '../../utils/MainApi';
 import MoviesApi from '../../utils/MoviesApi';
@@ -97,23 +97,13 @@ function Movies() {
     })
   }
 
-  function handleMessage() {
-    if (error) {
-      return `Во время запроса произошла ошибка.
-        Возможно, проблема с соединением или сервер недоступен.
-        Подождите немного и попробуйте ещё раз`;
-    } else if (!error && movies.length === 0) {
-      return "Ничего не найдено";
-    }
-  }
-
   return (
     <>
       <Header/>
       <main className='allMovies'>
           <SearchForm getMovies = {getSearchMovies} searchParams = {searchParams}/>
           <MoviesCardList movies={movies} error={error} changeLikeStatus = {handleMovieLike}/>
-          {!isLoader && handleMessage() && <p className="moviesCardList__message">{handleMessage()}</p> }
+          {!isLoader && <p className="moviesCardList__message">{handleMessage(error, movies)}</p> }
           {isLoader && <Preloader/>}
       </main>
       <Footer/>
