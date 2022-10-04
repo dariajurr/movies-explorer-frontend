@@ -64,19 +64,30 @@
     min-width: 410px;
 }
 
+.profile__btn:disabled {
+    opacity: 0.8;
+}
+
 .profile__btn:hover {
     opacity: 0.8;
 }
 
-.profile__input-error {
+.profile__span-text {
     display: block;
     font-weight: 400;
     font-size: 11px;
     line-height: 13px;
     text-align: center;
-    color: #FF004C;
     margin-top: 189px;
     margin-bottom: 20px;
+}
+
+.profile__span-text_error {
+    color: #FF004C;
+}
+
+.profile__span-text_succes {
+    color: #00ffa2;
 }
 
 .profile__signOut-btn {

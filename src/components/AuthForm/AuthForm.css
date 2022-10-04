@@ -27,41 +27,6 @@
     min-height: 266px;
 }
 
-.authForm__label {
-    font-weight: 400;
-    font-size: 10px;
-    line-height: 1.2;
-    color: #8B8B8B;
-    margin-bottom: 10px;
-}
-
-.authForm__label:not(:first-child) {
-    margin-top: 20px;
-}
-
-.authForm__input {
-    background: #2F2F2F;
-    border: none;
-    border-radius: 8px;
-    font-weight: 400;
-    font-size: 13px;
-    line-height: 1.23;
-    color: #fff;
-    padding: 15px;
-}
-
-.authForm__input-error {
-    color: #EE3465;
-}
-
-.authForm__error-massage {
-    font-weight: 400;
-    font-size: 10px;
-    line-height: 1.2;
-    color: #EE3465;
-    margin-top: 10px;
-}
-
 .authForm__btn {
     background: #4285F4;
     border: none;
@@ -74,6 +39,10 @@
     padding: 14px 0;
     cursor: pointer;
     margin: 69px 0 16px;
+}
+
+.authForm__btn:disabled {
+    opacity: 0.7;  
 }
 
 .authForm__btn:hover {

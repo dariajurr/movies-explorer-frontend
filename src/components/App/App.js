@@ -1,7 +1,7 @@
-import React, {useEffect} from 'react';
-import { Route, Switch, useHistory } from 'react-router-dom';
-import {CurrentUserContext} from '../../contexts/CurrentUserContext.js';
-import {PopUpContext} from '../../contexts/PopUpContext';
+import React, { useState, useEffect } from 'react';
+import { Route, Switch, useHistory, Redirect, useLocation } from 'react-router-dom';
+import { CurrentUserContext } from '../../contexts/CurrentUserContext.js';
+import { PopUpContext } from '../../contexts/PopUpContext';
 import './App.css'
 import Main from '../Main/Main'
 import Movies from '../Movies/Movies';
@@ -13,47 +13,50 @@ import NotFound from '../NotFound/NotFound.js';
 import NavPopup from '../NavPopup/NavPopup.js';
 import auth from '../../utils/Auth.js';
 import api from '../../utils/MainApi.js';
-import MoviesApi from '../../utils/MoviesApi.js';
-
-//временные файлы
-import saved from '../../utils/dsvedMovies.json';
-import movie from '../../utils/movies.json';
-import user from '../../utils/users.json';
+import ProtectedRoute from '../ProtectedRoute/ProtectedRoute.js';
+import { setLocal } from '../../utils/utils.js';
+import { useCurrentWidth } from '../../hooks/useCaurrentWidth';
 
 function App() {
   const history = useHistory();
-  const [loggedIn, setLoggedIn] = React.useState(false);
-  const [currentUser, getUserInfo] =  React.useState(user);
-  const [movies, setMovies] = React.useState(movie);
-  const [navPopupOpen, setNavPopupOpen] = React.useState(false);
-
-  /*useEffect(() => {
-    const tokenCheck = () => {
-      const JWT = localStorage.getItem('user');
-      if (JWT) {    
-        auth.valid(JSON.parse(JWT).token)
-          .then((res) => {
-            if (res) {
-              setLoggedIn(true);
-              history.push('/');
-            }
-          })
-          .catch((err) => console.error(err));
-      }
-    };
-    tokenCheck();
-  }, [history, loggedIn]);
+  const location = useLocation();
+  const width = useCurrentWidth();
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [currentUser, getUserInfo] =  useState([]);
+  const [navPopupOpen, setNavPopupOpen] = useState(false);
 
   useEffect(() => {
+    checkToken();
+  }, []);
+
+  function checkToken() {
+    const JWT = localStorage.getItem('user');
+    if (JWT) {
+      auth.valid(JSON.parse(JWT).token)
+        .then((res) => {
+          if (!res) {
+            setLoggedIn(false);
+            localStorage.removeItem('user');
+            history.push('/signin');
+          } else {
+            setLoggedIn(true);
+            history.push(location.pathname);
+          }
+        })
+        .catch((err) => console.error(err));
+    }
+  }
+  
+  useEffect(() => {
     if(loggedIn) {
-      Promise.all([api.getProfileInfo(), MoviesApi.getMovies()])
-      .then(([res, data]) => {
-        getUserInfo(res);
-        setMovies(data);
+      Promise.all([api.getProfileInfo(), api.getMovies()])
+      .then(([info, savedMovies]) => {
+        getUserInfo(info);
+        setLocal('savedMovies', savedMovies);
       })
     .catch((err) => console.log(err)); 
     }
-  }, [loggedIn]);*/
+  }, [loggedIn]);
 
   function handleNavPopupClick() {
     setNavPopupOpen(true);
@@ -64,68 +67,45 @@ function App() {
   }
 
   function handleUpdateUser(data) {
-    /*api.setProfileInfo(data)
-      .then(res => {
-        getUserInfo(res);
-    })
-    .catch((err) => console.log(err));*/
-  }
-
-  function signUp (name, password, email) {
-    auth.signup(name, password, email)
-    .then((res) => {  
-      if (res) {        
-        history.push('/signin');
-      }
-    })
-    .catch((err) => {
-      console.log(err)
-    });
-  };
-
-  function signIn (password, email) {
-    auth.signin(password, email)
-    .then(res => {  
-      localStorage.setItem('user', JSON.stringify({
-        token: res.token
-      }));   
-      setLoggedIn(true);  
-      history.push('/');
-    })
-    .catch((err) => {
-      console.log(err)
-    });
+    getUserInfo(data);
   }
 
   function signOut () {
-    console.log();
     setLoggedIn(false);
-    history.push('/signin');
+    localStorage.clear();
   };
   
   return (
     <CurrentUserContext.Provider value={{loggedIn, currentUser}}>    
-      <PopUpContext.Provider value={{handleNavPopupClick, closePopup}}>
+      <PopUpContext.Provider value={{handleNavPopupClick, closePopup, width}}>
         <div className="App">
           <Switch> 
             <Route exact path="/">     
               <Main/>
             </Route>    
-            <Route path="/movies">     
-              <Movies movies = {movies} saved = {saved}/>
-            </Route>  
-            <Route path="/saved_movies">     
-              <SavedMovies movies = {saved}/>
+            <Route path="/signin">  
+              {loggedIn ? <Redirect to="/"/> : <SignIn setLoggedIn={setLoggedIn}/>}   
             </Route>
-            <Route path="/profile">     
-              <Profile onSubmit={handleUpdateUser} signOut={signOut}/>
-            </Route>  
-            <Route path="/signin">     
-              <SignIn onSubmit={signIn}/>
+            <Route path="/signup">
+              {!loggedIn ? <SignUp setLoggedIn={setLoggedIn}/> : <Redirect to="/"/>}     
+            </Route>   
+            <Route path="/movies">
+              <ProtectedRoute        
+                component={Movies}
+              />
+            </Route>    
+            <Route path="/saved_movies">
+              <ProtectedRoute 
+                component={SavedMovies}
+              />  
+            </Route>    
+            <Route path="/profile">
+              <ProtectedRoute 
+                component={Profile}
+                onSubmit={handleUpdateUser}
+                onSignOut={signOut}
+              />
             </Route>
-            <Route path="/signup">     
-              <SignUp onSubmit={signUp}/>
-            </Route>        
             <Route path="*">
               <NotFound/>
             </Route>

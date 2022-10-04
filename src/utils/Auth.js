@@ -17,7 +17,7 @@ class Auth {
         headers: this._headers,
         body: JSON.stringify({name, password, email})
       })
-      .then(this._checkResponse)
+      .then(res => res.json())
       .catch((err) => console.log(err));
     }; 
   
@@ -28,9 +28,9 @@ class Auth {
         headers: this._headers,
         body: JSON.stringify({password, email})
       })
-      .then(this._checkResponse)
+      .then(res => res.json())
       .catch((err) => console.log(err));
-    };
+    }; 
   
     valid = (JWT) => {
       return fetch(`${this._baseUrl}/users/me`, {
