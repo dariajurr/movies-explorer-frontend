@@ -1,6 +1,4 @@
 # movies-explorer-frontend
+Фроненд часть сервиса movies-explorer
 
-https://dariajurr.nomoredomains.sbs
 
-
-https://github.com/dariajurr/movies-explorer-frontend/pull/2
