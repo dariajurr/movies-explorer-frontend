@@ -20,5 +20,5 @@ npm run dev
 npm run build
 ```
 
-https://dariajurr.nomoredomains.sbs
+https://movies-explorer.dariajurr.site
 
