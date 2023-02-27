@@ -14,7 +14,7 @@ movies-explorer-frontend
 npm install
 
 # Запуск сервера разработки:
-npm run dev
+npm run start
 
 # Сборка проекта:
 npm run build
